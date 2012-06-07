@@ -1,4 +1,5 @@
-###RP Radar Chart
+RP Radar Chart
+===============
 
 This is a simple library for plotting Radar Charts (or Spider Web Charts) in
 iOS. 
@@ -8,8 +9,8 @@ Examples (Using random values):
 <img src="http://raspu.com/b/RPRadar1.png" alt="RPRadarChart" title="RPRadarChart Example" style="display:block; margin: 10px auto 30px auto;" class="center">
 <img src="http://raspu.com/b/RPRadar2.png" alt="RPRadarChart" title="RPRadarChart Example" style="display:block; margin: 10px auto 30px auto;" class="center">
 
-
-###Licensing
+Licensing
+---------
 
 RPRadarChart is licensed under MIT License
 Permission is hereby granted, free of charge, to any person obtaining a copy
