@@ -13,8 +13,9 @@
 		9F235479157FAE99002C1327 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9F235477157FAE99002C1327 /* InfoPlist.strings */; };
 		9F23547B157FAE99002C1327 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F23547A157FAE99002C1327 /* main.m */; };
 		9F23547F157FAE9A002C1327 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F23547E157FAE9A002C1327 /* AppDelegate.m */; };
-		9F235482157FAE9A002C1327 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F235481157FAE9A002C1327 /* ViewController.m */; };
 		9F235485157FAE9A002C1327 /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F235483157FAE9A002C1327 /* ViewController.xib */; };
+		9F23549415800871002C1327 /* RPRadarChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F23549315800871002C1327 /* RPRadarChart.m */; };
+		9F235498158008A3002C1327 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F235497158008A3002C1327 /* ViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,15 +23,17 @@
 		9F23546E157FAE99002C1327 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		9F235470157FAE99002C1327 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9F235472157FAE99002C1327 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		9F235476157FAE99002C1327 /* RadarChart-Info.plist */ = {isa = PBXFileReference; path = "RadarChart-Info.plist"; sourceTree = "<group>"; };
+		9F235476157FAE99002C1327 /* RadarChart-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RadarChart-Info.plist"; sourceTree = "<group>"; };
 		9F235478157FAE99002C1327 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		9F23547A157FAE99002C1327 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		9F23547C157FAE99002C1327 /* RadarChart-Prefix.pch */ = {isa = PBXFileReference; path = "RadarChart-Prefix.pch"; sourceTree = "<group>"; };
-		9F23547D157FAE99002C1327 /* AppDelegate.h */ = {isa = PBXFileReference; path = AppDelegate.h; sourceTree = "<group>"; };
+		9F23547C157FAE99002C1327 /* RadarChart-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RadarChart-Prefix.pch"; sourceTree = "<group>"; };
+		9F23547D157FAE99002C1327 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		9F23547E157FAE9A002C1327 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		9F235480157FAE9A002C1327 /* ViewController.h */ = {isa = PBXFileReference; path = ViewController.h; sourceTree = "<group>"; };
-		9F235481157FAE9A002C1327 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		9F235484157FAE9A002C1327 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController.xib; sourceTree = "<group>"; };
+		9F23549215800871002C1327 /* RPRadarChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RPRadarChart.h; path = src/RPRadarChart.h; sourceTree = "<group>"; };
+		9F23549315800871002C1327 /* RPRadarChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RPRadarChart.m; path = src/RPRadarChart.m; sourceTree = "<group>"; };
+		9F235496158008A3002C1327 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		9F235497158008A3002C1327 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,11 +80,10 @@
 		9F235474157FAE99002C1327 /* RadarChart */ = {
 			isa = PBXGroup;
 			children = (
+				9F23548B157FAEA6002C1327 /* RadarChart */,
 				9F23547D157FAE99002C1327 /* AppDelegate.h */,
 				9F23547E157FAE9A002C1327 /* AppDelegate.m */,
-				9F235480157FAE9A002C1327 /* ViewController.h */,
-				9F235481157FAE9A002C1327 /* ViewController.m */,
-				9F235483157FAE9A002C1327 /* ViewController.xib */,
+				9F235495158008A3002C1327 /* Example */,
 				9F235475157FAE99002C1327 /* Supporting Files */,
 			);
 			path = RadarChart;
@@ -96,6 +98,25 @@
 				9F23547C157FAE99002C1327 /* RadarChart-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		9F23548B157FAEA6002C1327 /* RadarChart */ = {
+			isa = PBXGroup;
+			children = (
+				9F23549215800871002C1327 /* RPRadarChart.h */,
+				9F23549315800871002C1327 /* RPRadarChart.m */,
+			);
+			name = RadarChart;
+			sourceTree = "<group>";
+		};
+		9F235495158008A3002C1327 /* Example */ = {
+			isa = PBXGroup;
+			children = (
+				9F235483157FAE9A002C1327 /* ViewController.xib */,
+				9F235496158008A3002C1327 /* ViewController.h */,
+				9F235497158008A3002C1327 /* ViewController.m */,
+			);
+			path = Example;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -162,7 +183,8 @@
 			files = (
 				9F23547B157FAE99002C1327 /* main.m in Sources */,
 				9F23547F157FAE9A002C1327 /* AppDelegate.m in Sources */,
-				9F235482157FAE9A002C1327 /* ViewController.m in Sources */,
+				9F23549415800871002C1327 /* RPRadarChart.m in Sources */,
+				9F235498158008A3002C1327 /* ViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -183,6 +205,7 @@
 				9F235484157FAE9A002C1327 /* en */,
 			);
 			name = ViewController.xib;
+			path = ..;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
