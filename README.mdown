@@ -7,7 +7,7 @@ iOS.
 Examples (Using random values):
 
 <img src="http://raspu.com/b/RPRadarA1.png" alt="RPRadarChart" title="RPRadarChart Example" style="display:block; margin: 10px auto 30px auto;" class="center">
-<img src="http://raspu.com/b/RPRadarB1.png" alt="RPRadarChart" title="RPRadarChart Example" style="display:block; margin: 10px auto 30px auto;" class="center">
+<img src="http://raspu.com/b/RPRadarB2.png" alt="RPRadarChart" title="RPRadarChart Example" style="display:block; margin: 10px auto 30px auto;" class="center">
 
 WARNING
 -------
