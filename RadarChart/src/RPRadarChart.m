@@ -74,7 +74,8 @@
     [self drawBackGroundInContext:cx];
     if(hasMultiDataSet)
     {
-        for (NSString *key in values) {
+        for (NSString *key in values) 
+        {
             [self drawChartInContext:cx withKey:key];
         }
     }else
@@ -150,7 +151,7 @@
         }
         mi++;
     }    
-    
+    CGContextMoveToPoint(cx, 0, 0);
     
 }
 
@@ -236,6 +237,7 @@
             [str drawAtPoint:CGPointMake(- x, - y) withFont: [UIFont fontWithName:@"Helvetica" size:12]];
         }
     }
+    CGContextMoveToPoint(cx, 0, 0);
     
 }
 
