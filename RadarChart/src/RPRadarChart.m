@@ -39,12 +39,12 @@
 
 @interface RPRadarChart ()
 
--(void) drawBackGroundInContext:(CGContextRef) cx;
+-(void) drawChartInContext:(CGContextRef) cx withKey: (NSString *)key;
 
 @end
 
 @implementation RPRadarChart
-@synthesize values, backLineWidth, frontLineWidth, lineColor, fillColor, dotColor, dotRadius, drawGuideLines,showGuideNumbers;
+@synthesize values, backLineWidth, frontLineWidth, lineColor, fillColor, dotColor, dotRadius, drawGuideLines,showGuideNumbers, colors,showValues;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -57,6 +57,7 @@
         dotRadius = 3;
         drawGuideLines = YES;
         showGuideNumbers = YES;
+        showValues = YES;
         lineColor = [UIColor redColor];
         dotColor = [UIColor redColor];
         fillColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:0.2];
@@ -71,22 +72,41 @@
     CGContextRef cx = UIGraphicsGetCurrentContext();
     CGContextTranslateCTM(cx, self.frame.size.width/2, self.frame.size.height/2);
     [self drawBackGroundInContext:cx];
-    [self drawChartInContext:cx];
+    if(hasMultiDataSet)
+    {
+        for (NSString *key in values) {
+            [self drawChartInContext:cx withKey:key];
+        }
+    }else
+        [self drawChartInContext:cx withKey:nil];
 }
 
--(void) drawChartInContext:(CGContextRef) cx
+-(void) drawChartInContext:(CGContextRef) cx withKey: (NSString *)key
 {
     CGContextSetLineWidth(cx, frontLineWidth);
     
-    float mvr = (2*M_PI) / [values count];
+    NSDictionary *d = (key == nil) ? values : [values objectForKey:key] ;
+    
+    UIColor *flColor = fillColor;
+    UIColor *stColor = lineColor;
+    UIColor *dtColor = dotColor;
+    
+    if(colors != nil && key != nil)
+    {
+        int idx = [[values allKeys] indexOfObject:key];
+        stColor = dtColor = [colors objectAtIndex:idx%[colors count]];
+        flColor = [dtColor colorWithAlphaComponent:0.2];
+    }
+    
+    float mvr = (2*M_PI) / [d count];
     float fx =0;
     float fy =0;
     int mi = 0;
     //DRAW LINES
     CGMutablePathRef path = CGPathCreateMutable();
-    for (NSString *ky in values)
+    for (NSString *ky in d)
     {
-        float v = ([[values objectForKey:ky] floatValue] / maxValue) * maxSize;
+        float v = ([[d objectForKey:ky] floatValue] / maxValue) * maxSize;
         float a = (mvr * mi) - M_PI_2;
         float x = v * cos(a);
         float y = v * sin(a);
@@ -102,30 +122,32 @@
     }    
     CGPathAddLineToPoint(path, NULL, fx, fy);
     CGContextAddPath(cx, path);
-    CGContextSetFillColorWithColor(cx, fillColor.CGColor);
+    CGContextSetFillColorWithColor(cx, flColor.CGColor);
     CGContextFillPath(cx);
-    CGContextSetStrokeColorWithColor(cx, lineColor.CGColor);
+    CGContextSetStrokeColorWithColor(cx, stColor.CGColor);
     CGContextAddPath(cx, path);
     CGContextStrokePath(cx);
     
     //DRAW VALUES
+    
     mi= 0;
-    for (NSString *ky in values)
+    for (NSString *ky in d)
     {
-        float v = ([[values objectForKey:ky] floatValue] / maxValue) * maxSize;
+        float v = ([[d objectForKey:ky] floatValue] / maxValue) * maxSize;
         float a = (mvr * mi) - M_PI_2;
         float x = v * cos(a);
         float y = v * sin(a);
         
-        CGContextSetFillColorWithColor(cx, dotColor.CGColor);
+        CGContextSetFillColorWithColor(cx, dtColor.CGColor);
         CGContextFillEllipseInRect(cx, CGRectMake(x-dotRadius, y-dotRadius, dotRadius*2, dotRadius*2));
-        
-        NSString *str = [NSString stringWithFormat:@"%1.0f",[[values objectForKey:ky] floatValue]];
-        x += 5;
-        y -= 7;     
-        CGContextSetFillColorWithColor(cx, [UIColor blackColor].CGColor);
-        [str drawAtPoint:CGPointMake(x, y) withFont:[UIFont fontWithName:@"Helvetica-Bold" size:12]];
-        
+        if(showValues)
+        {
+            NSString *str = [NSString stringWithFormat:@"%1.0f",[[d objectForKey:ky] floatValue]];
+            x += 5;
+            y -= 7;     
+            CGContextSetFillColorWithColor(cx, [UIColor blackColor].CGColor);
+            [str drawAtPoint:CGPointMake(x, y) withFont:[UIFont fontWithName:@"Helvetica-Bold" size:12]];
+        }
         mi++;
     }    
     
@@ -136,31 +158,42 @@
 {
     CGContextSetLineWidth(cx, backLineWidth);
     
-    float mvr = (2*M_PI) / [values count];
+    NSDictionary *d = (!hasMultiDataSet) ? values : [[values allValues] objectAtIndex:0];
+
+    float mvr = (2*M_PI) / [d count];
     float spcr = maxSize / 4;
     
     //Index Lines
     if(drawGuideLines)
     {
         CGContextSetStrokeColorWithColor(cx, [UIColor colorWithWhite:0.8 alpha:1].CGColor);
-        for (int j = 0; j<=4; j++) {
-            float cur = j*spcr;
-            float x = cur * cos(-mvr - M_PI_2);
-            float y = cur * sin(-mvr - M_PI_2);
-            CGContextMoveToPoint(cx, x, y);
-            for (int i = 0; i < [values count]; i++)
-            {
-                float a = (mvr * i) - M_PI_2;
-                float x = cur * cos(a);
-                float y = cur * sin(a);
-                CGContextAddLineToPoint(cx, x , y);            
-            }
-            CGContextStrokePath(cx);
+        
+        for (int j = 0; j<=4; j++) 
+        {
+             float cur = j*spcr;
+            CGContextStrokeEllipseInRect(cx, CGRectMake(-cur, -cur, cur*2, cur*2));
         }
+        
+//Straight Lines...
+//        for (int j = 0; j<=4; j++) {
+//            float cur = j*spcr;
+//            float x = cur * cos(-mvr - M_PI_2);
+//            float y = cur * sin(-mvr - M_PI_2);
+//            CGContextMoveToPoint(cx, x, y);
+//            for (int i = 0; i < [d count]; i++)
+//            {
+//                float a = (mvr * i) - M_PI_2;
+//                float x = cur * cos(a);
+//                float y = cur * sin(a);
+//                CGContextAddLineToPoint(cx, x , y);            
+//            }
+//        }
+//-------------------------------
+            CGContextStrokePath(cx);
     }
     //Base lines
     CGContextSetStrokeColorWithColor(cx, [UIColor darkGrayColor].CGColor);
-    for (int i = 0; i < [values count]; i++)
+    for (int i = 0; i < [d count]; i++)
     {
         float a = (mvr * i) - M_PI_2;
         float x = maxSize * cos(a);
@@ -171,7 +204,7 @@
         CGContextStrokePath(cx);
         
         
-        NSString *tx = [[values allKeys] objectAtIndex:i];
+        NSString *tx = [[d allKeys] objectAtIndex:i];
         CGSize s =[tx sizeWithFont:[UIFont fontWithName:@"Helvetica-Bold" size:12]];
         x-= s.width/2;
         y += (y>0) ? 10 : -20;        
@@ -185,7 +218,7 @@
          a = (mvr * i) - a  + 2*M_PI_2 ;
          x = (maxSize+20) * cos(a);
          y = (maxSize+20) * sin(a);
-         [[[values allKeys] objectAtIndex:i] drawAtPoint:CGPointMake( x, y) withFont: [UIFont fontWithName:@"Helvetica" size:10]];
+         [[[d allKeys] objectAtIndex:i] drawAtPoint:CGPointMake( x, y) withFont: [UIFont fontWithName:@"Helvetica" size:10]];
          CGContextRestoreGState(cx);*/
         
     }
@@ -215,11 +248,25 @@
     maxValue = -1;
     minValue = FLT_MAX; 
     for (NSString *ky in values) {
-        float v = [[values objectForKey:ky] floatValue];
-        if(maxValue < v)
-            maxValue = v;
-        if(minValue > v)
-            minValue = v;
+        if([[[values objectForKey:ky] class] isSubclassOfClass:[NSDictionary class]])
+        {
+            hasMultiDataSet = YES;
+            for (NSString *k in [values objectForKey:ky])
+            {
+                float v = [[[values objectForKey:ky] objectForKey:k] floatValue];
+                if(maxValue < v)
+                    maxValue = v;
+                if(minValue > v)
+                    minValue = v;
+            }
+        }else
+        {
+            float v = [[values objectForKey:ky] floatValue];
+            if(maxValue < v)
+                maxValue = v;
+            if(minValue > v)
+                minValue = v;
+        }
     }
     maxValue += (maxValue - minValue)/10;
     [self setNeedsDisplay];
@@ -262,16 +309,22 @@
     [self setNeedsDisplay];    
 }
 
+-(void) setShowValues:(BOOL)v
+{
+    showValues = v;
+    [self setNeedsDisplay];
+}
+
 -(void) setDrawGuideLines:(BOOL)v
 {
     drawGuideLines = v;
-    [self setNeedsLayout];
+    [self setNeedsDisplay];
 }
 
 -(void) setShowGuideNumbers:(BOOL)v
 {
     showGuideNumbers = v;
-    [self setNeedsLayout];
+    [self setNeedsDisplay];
 }
 
 @end

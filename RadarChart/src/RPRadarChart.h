@@ -41,6 +41,8 @@
 {
     NSDictionary *values; // Key are names.
     
+    NSArray *colors; //Any number
+    
     float backLineWidth;
     float frontLineWidth;
     float dotRadius;
@@ -49,6 +51,8 @@
     UIColor *fillColor;
     BOOL drawGuideLines;
     BOOL showGuideNumbers;
+    BOOL showValues;
+    BOOL hasMultiDataSet;
     
     //Private
     float maxSize;
@@ -56,8 +60,9 @@
     float minValue;
 }
 @property (nonatomic, strong) NSDictionary *values;
+@property (nonatomic, strong) NSArray *colors;
 @property (nonatomic, strong) UIColor *lineColor, *fillColor, *dotColor;
 @property (nonatomic) float backLineWidth, frontLineWidth, dotRadius;
-@property (nonatomic) BOOL drawGuideLines, showGuideNumbers;
+@property (nonatomic) BOOL drawGuideLines, showGuideNumbers, showValues;
 
 @end

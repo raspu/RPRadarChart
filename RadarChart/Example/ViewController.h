@@ -17,6 +17,10 @@
 -(IBAction)blue:(id)sender;
 -(IBAction)V1:(id)sender;
 -(IBAction)V2:(id)sender;
+-(IBAction)GuideLines:(id)sender;
+-(IBAction)GuideNumbers:(id)sender;
+-(IBAction)showValues:(id)sender;
+-(IBAction)Delegate:(id)sender;
 -(IBAction)RND:(id)sender;
 
 @end

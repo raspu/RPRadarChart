@@ -19,17 +19,9 @@
     [super viewDidLoad];
     rc = [[RPRadarChart alloc] initWithFrame:CGRectMake(0, 100, 320, 320)];
     rc.backgroundColor = [UIColor whiteColor];
-    [rc setValues:[NSDictionary dictionaryWithObjectsAndKeys:
-                   [NSNumber numberWithFloat:10.0f],@"FIRST",
-                   [NSNumber numberWithFloat:20.0f],@"SECOND",
-                   [NSNumber numberWithFloat:30.0f],@"THIRD",
-                   [NSNumber numberWithFloat:40.0f],@"FOURTH",
-                   [NSNumber numberWithFloat:50.0f],@"FIFTH",
-                   [NSNumber numberWithFloat:60.0f],@"SIXTH",
-                   [NSNumber numberWithFloat:70.0f],@"SEVENTH",
-                   [NSNumber numberWithFloat:80.0f],@"EIGHT",
-                   
-                   nil]];
+    rc.colors = [NSArray arrayWithObjects:[UIColor redColor],[UIColor blueColor],[UIColor orangeColor],[UIColor purpleColor], [UIColor greenColor],nil];
+    [self RND:nil];
+    
     [self.view addSubview:rc];
     
 }
@@ -54,28 +46,51 @@
 {
     rc.backLineWidth = 0.5f;
     rc.frontLineWidth = 1.5f;
-    rc.drawGuideLines = YES;
-    rc.showGuideNumbers = NO;
     rc.dotRadius = 3;
 }
 -(IBAction)V2:(id)sender
 {
     rc.backLineWidth = 1.5f;
     rc.frontLineWidth = 2.0f;
-    rc.drawGuideLines = NO;
-    rc.showGuideNumbers = YES;
-    rc.dotRadius = 4;
+    rc.dotRadius = 4.5;
 }
+-(IBAction)showValues:(id)sender
+{
+    rc.showValues = !rc.showValues;
+}
+
+-(IBAction)GuideNumbers:(id)sender
+{
+    rc.showGuideNumbers = !rc.showGuideNumbers;
+}
+
+-(IBAction)GuideLines:(id)sender
+{
+    rc.drawGuideLines = !rc.drawGuideLines;
+}
+
+-(IBAction)Delegate:(UIButton *)sender;
+{
+    sender.selected = !sender.selected;
+}
+
 
 -(IBAction)RND:(id)sender
 {
-    int size = arc4random()%15 + 3;
-    NSMutableDictionary *data = [[NSMutableDictionary alloc] initWithCapacity:size];
+    int size = arc4random()%7 + 3;
+    int num = arc4random()%4 + 1;
     
-    for (int i = 0; i<size; i++) 
+    NSMutableDictionary *data = [[NSMutableDictionary alloc] initWithCapacity:size];
+    for (int j = 0; j<num; j++) 
     {
-        [data setObject:[NSNumber numberWithFloat:arc4random()%1000] forKey:[NSString stringWithFormat:@"RND%i",arc4random()%100]];
+        NSMutableDictionary *tData = [[NSMutableDictionary alloc] initWithCapacity:size];
+        for (int i = 0; i<size; i++) 
+        {
+            [tData setObject:[NSNumber numberWithFloat:arc4random()%1000] forKey:[NSString stringWithFormat:@"RND%i",arc4random()%100]];
+        }
+        [data setValue:tData forKey:[NSString stringWithFormat:@"DataSet-%d",j]];
     }
+    
     
     rc.values = data;
 }
