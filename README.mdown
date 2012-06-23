@@ -9,6 +9,26 @@ Examples (Using random values):
 <img src="http://raspu.com/b/RPRadar1.png" alt="RPRadarChart" title="RPRadarChart Example" style="display:block; margin: 10px auto 30px auto;" class="center">
 <img src="http://raspu.com/b/RPRadar2.png" alt="RPRadarChart" title="RPRadarChart Example" style="display:block; margin: 10px auto 30px auto;" class="center">
 
+WARNING
+-------
+
+This library is under development, don't expect it to be finished. Anyway, even if isn't finished you already can:
+  
+  -  Plot one or more set of floats.
+  -  Set a different color for each set.
+  -  Customize how is the chart displayed:
+    - Line width
+    - Dots radius
+    - Show or not values.
+    - Show or not guide lines.
+    - Show or not guide numbers
+
+Planned features:
+
+ - Addjust values numbers positions on demand. 
+ - Add a Legend for each data set.
+ - Animate a transitions from one data set to another.  
+
 Use
 ---
 
