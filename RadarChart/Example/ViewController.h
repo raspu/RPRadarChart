@@ -21,6 +21,7 @@
 -(IBAction)GuideNumbers:(id)sender;
 -(IBAction)showValues:(id)sender;
 -(IBAction)Delegate:(id)sender;
+-(IBAction)fillArea:(id)sender;
 -(IBAction)RND:(id)sender;
 
 @end

@@ -44,7 +44,7 @@
 @end
 
 @implementation RPRadarChart
-@synthesize values, backLineWidth, frontLineWidth, lineColor, fillColor, dotColor, dotRadius, drawGuideLines,showGuideNumbers, colors,showValues;
+@synthesize values, backLineWidth, frontLineWidth, lineColor, fillColor, dotColor, dotRadius, drawGuideLines,showGuideNumbers, colors, showValues, fillArea;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -58,6 +58,7 @@
         drawGuideLines = YES;
         showGuideNumbers = YES;
         showValues = YES;
+        fillArea = YES;
         lineColor = [UIColor redColor];
         dotColor = [UIColor redColor];
         fillColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:0.2];
@@ -123,8 +124,11 @@
     }    
     CGPathAddLineToPoint(path, NULL, fx, fy);
     CGContextAddPath(cx, path);
-    CGContextSetFillColorWithColor(cx, flColor.CGColor);
-    CGContextFillPath(cx);
+    if(fillArea)
+    {
+        CGContextSetFillColorWithColor(cx, flColor.CGColor);
+        CGContextFillPath(cx);   
+    }
     CGContextSetStrokeColorWithColor(cx, stColor.CGColor);
     CGContextAddPath(cx, path);
     CGContextStrokePath(cx);
@@ -175,7 +179,7 @@
             CGContextStrokeEllipseInRect(cx, CGRectMake(-cur, -cur, cur*2, cur*2));
         }
         
-//Straight Lines...
+//Straigh Lines...
 //        for (int j = 0; j<=4; j++) {
 //            float cur = j*spcr;
 //            float x = cur * cos(-mvr - M_PI_2);
@@ -316,6 +320,13 @@
     showValues = v;
     [self setNeedsDisplay];
 }
+
+-(void) setFillArea:(BOOL)v
+{
+    fillArea = v;
+    [self setNeedsDisplay];
+}
+
 
 -(void) setDrawGuideLines:(BOOL)v
 {

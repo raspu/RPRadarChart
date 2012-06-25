@@ -53,6 +53,7 @@
     BOOL showGuideNumbers;
     BOOL showValues;
     BOOL hasMultiDataSet;
+    BOOL fillArea;
     
     //Private
     float maxSize;
@@ -63,6 +64,6 @@
 @property (nonatomic, strong) NSArray *colors;
 @property (nonatomic, strong) UIColor *lineColor, *fillColor, *dotColor;
 @property (nonatomic) float backLineWidth, frontLineWidth, dotRadius;
-@property (nonatomic) BOOL drawGuideLines, showGuideNumbers, showValues;
+@property (nonatomic) BOOL drawGuideLines, showGuideNumbers, showValues, fillArea;
 
 @end

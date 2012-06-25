@@ -21,11 +21,12 @@ This library is under development, don't expect it to be finished. Anyway, even 
     - Dots radius
     - Show or not values.
     - Show or not guide lines.
-    - Show or not guide numbers
+    - Show or not guide numbers.
+    - Fill or not the drawed area.
 
 Planned features:
 
- - Addjust values numbers positions on demand. 
+ - Addjust values positions if needed. 
  - Add a Legend for each data set.
  - Animate a transitions from one data set to another.  
 

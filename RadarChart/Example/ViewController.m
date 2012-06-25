@@ -69,6 +69,11 @@
     rc.drawGuideLines = !rc.drawGuideLines;
 }
 
+-(IBAction)fillArea:(id)sender
+{
+    rc.fillArea = !rc.fillArea;
+}
+
 -(IBAction)Delegate:(UIButton *)sender;
 {
     sender.selected = !sender.selected;
