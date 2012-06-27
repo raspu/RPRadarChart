@@ -37,7 +37,7 @@ Just add RPRadarChart.h and RPRadarChart.m to your project. You can plot somethi
 
 ```
 RPRadarChart *rc = [[RPRadarChart alloc] initWithFrame:CGRectMake(0, 100, 320, 320)];
-    rc.values = [NSDictionary dictionaryWithObjectsAndKeys:
+rc.values = [NSDictionary dictionaryWithObjectsAndKeys:
                    [NSNumber numberWithFloat:10.0f],@"A",
                    [NSNumber numberWithFloat:20.0f],@"B",
                    [NSNumber numberWithFloat:30.0f],@"C",
@@ -47,7 +47,7 @@ RPRadarChart *rc = [[RPRadarChart alloc] initWithFrame:CGRectMake(0, 100, 320, 3
                    [NSNumber numberWithFloat:70.0f],@"F",
                    [NSNumber numberWithFloat:80.0f],@"G",
                    nil]];
-    [self.view addSubview:rc];
+[self.view addSubview:rc];
 ```
 
 
