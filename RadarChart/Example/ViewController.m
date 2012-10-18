@@ -8,22 +8,24 @@
 
 #import "ViewController.h"
 
-@interface ViewController ()
-
-@end
-
 @implementation ViewController
+{
+    NSArray *colors;
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     rc = [[RPRadarChart alloc] initWithFrame:CGRectMake(0, 100, 320, 320)];
     rc.backgroundColor = [UIColor whiteColor];
-    rc.colors = [NSArray arrayWithObjects:[UIColor redColor],[UIColor blueColor],[UIColor orangeColor],[UIColor purpleColor], [UIColor greenColor],nil];
-    [self RND:nil];
+    
+    colors = [NSArray arrayWithObjects:[UIColor redColor], [UIColor blueColor], [UIColor orangeColor], [UIColor purpleColor], [UIColor greenColor], nil];
+    
+    rc.dataSource = self;
+    rc.delegate = self;
     
     [self.view addSubview:rc];
-    
 }
 
 -(IBAction)blue:(UIButton *)sender
@@ -79,27 +81,6 @@
     sender.selected = !sender.selected;
 }
 
-
--(IBAction)RND:(id)sender
-{
-    int size = arc4random()%7 + 3;
-    int num = arc4random()%4 + 1;
-    
-    NSMutableDictionary *data = [[NSMutableDictionary alloc] initWithCapacity:size];
-    for (int j = 0; j<num; j++) 
-    {
-        NSMutableDictionary *tData = [[NSMutableDictionary alloc] initWithCapacity:size];
-        for (int i = 0; i<size; i++) 
-        {
-            [tData setObject:[NSNumber numberWithFloat:arc4random()%1000] forKey:[NSString stringWithFormat:@"RND%i",arc4random()%100]];
-        }
-        [data setValue:tData forKey:[NSString stringWithFormat:@"DataSet-%d",j]];
-    }
-    
-    
-    rc.values = data;
-}
-
 - (void)viewDidUnload
 {
     [super viewDidUnload];
@@ -109,6 +90,61 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return UIInterfaceOrientationIsPortrait(interfaceOrientation);
+}
+
+#pragma mark -- data chart data source
+
+// get number of spokes in radar chart
+- (NSInteger)numberOfSopkesInRadarChart:(RPRadarChart*)chart
+{
+    return 5;
+}
+
+// get number of datas
+- (NSInteger)numberOfDatasInRadarChart:(RPRadarChart*)chart
+{
+    return 2;
+}
+
+// get max value for this radar chart
+- (float)maximumValueInRadarChart:(RPRadarChart*)chart
+{
+    return 5;
+}
+
+// get title for each spoke
+- (NSString*)radarChart:(RPRadarChart*)chart titleForSpoke:(NSInteger)atIndex
+{
+    return [NSString stringWithFormat:@"Spoke%d", atIndex];
+}
+
+// get data value for a specefic data item for a spoke
+- (float)radarChart:(RPRadarChart*)chart valueForData:(NSInteger)dataIndex forSpoke:(NSInteger)spokeIndex
+{
+    float data1[] = {4, 5, 1, 3, 2};
+    float data2[] = {1, 2, 3, 4, 5};
+    
+    switch (dataIndex) {
+        case 0:
+            return data1[spokeIndex];
+        case 1:
+            return data2[spokeIndex];
+    }
+    
+    return 0;
+}
+
+// get color legend for a specefic data
+- (UIColor*)radarChart:(RPRadarChart*)chart colorForData:(NSInteger)atIndex
+{
+    return colors[atIndex];
+}
+
+#pragma mark -- delegate for chart
+
+- (void)radarChart:(RPRadarChart *)chart lineTouchedForData:(NSInteger)dataIndex atPosition:(CGPoint)point
+{
+    NSLog(@"Line %d touched at (%f,%f)", dataIndex, point.x, point.y);
 }
 
 @end

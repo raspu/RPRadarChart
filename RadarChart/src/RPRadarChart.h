@@ -37,12 +37,45 @@
 
 #import <UIKit/UIKit.h>
 
+@class RPRadarChart;
+
+/*
+ Data source protocol for radar chart
+ */
+@protocol RPRadarChartDataSource <NSObject>
+
+@required
+
+// get number of spokes in radar chart
+- (NSInteger)numberOfSopkesInRadarChart:(RPRadarChart*)chart;
+
+// get number of datas
+- (NSInteger)numberOfDatasInRadarChart:(RPRadarChart*)chart;
+
+// get max value for this radar chart
+- (float)maximumValueInRadarChart:(RPRadarChart*)chart;
+
+// get title for each spoke
+- (NSString*)radarChart:(RPRadarChart*)chart titleForSpoke:(NSInteger)atIndex;
+
+// get data value for a specefic data item for a spoke
+- (float)radarChart:(RPRadarChart*)chart valueForData:(NSInteger)dataIndex forSpoke:(NSInteger)spokeIndex;
+
+// get color legend for a specefic data
+- (UIColor*)radarChart:(RPRadarChart*)chart colorForData:(NSInteger)atIndex;
+
+@end
+
+@protocol RPRadarChartDelegate <NSObject>
+
+@optional
+
+- (void)radarChart:(RPRadarChart *)chart lineTouchedForData:(NSInteger)dataIndex atPosition:(CGPoint)point;
+
+@end
+
 @interface RPRadarChart : UIView
 {
-    NSDictionary *values; // Key are names.
-    
-    NSArray *colors; //Any number
-    
     float backLineWidth;
     float frontLineWidth;
     float dotRadius;
@@ -60,10 +93,14 @@
     float maxValue;
     float minValue;
 }
-@property (nonatomic, strong) NSDictionary *values;
-@property (nonatomic, strong) NSArray *colors;
+
+// @property (nonatomic, strong) NSDictionary *values;
+// @property (nonatomic, strong) NSArray *colors;
 @property (nonatomic, strong) UIColor *lineColor, *fillColor, *dotColor;
 @property (nonatomic) float backLineWidth, frontLineWidth, dotRadius;
 @property (nonatomic) BOOL drawGuideLines, showGuideNumbers, showValues, fillArea;
+@property (nonatomic) NSInteger guideLineSteps;
+@property (nonatomic, assign) id<RPRadarChartDataSource> dataSource;
+@property (nonatomic, assign) id<RPRadarChartDelegate> delegate;
 
 @end
