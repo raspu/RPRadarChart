@@ -35,22 +35,25 @@ Use
 
 Just add RPRadarChart.h and RPRadarChart.m to your project. You can plot something with this few lines:
 
-```
-RPRadarChart *rc = [[RPRadarChart alloc] initWithFrame:CGRectMake(0, 100, 320, 320)];
-rc.values = [NSDictionary dictionaryWithObjectsAndKeys:
-                   [NSNumber numberWithFloat:10.0f],@"A",
-                   [NSNumber numberWithFloat:20.0f],@"B",
-                   [NSNumber numberWithFloat:30.0f],@"C",
-                   [NSNumber numberWithFloat:40.0f],@"D",
-                   [NSNumber numberWithFloat:50.0f],@"E",
-                   [NSNumber numberWithFloat:60.0f],@"F",
-                   [NSNumber numberWithFloat:70.0f],@"F",
-                   [NSNumber numberWithFloat:80.0f],@"G",
-                   nil]];
-[self.view addSubview:rc];
-```
+You can use simple data source protocol to show values on chart such as:
 
+// get number of spokes in radar chart
+- (NSInteger)numberOfSopkesInRadarChart:(RPRadarChart*)chart;
 
+// get number of datas
+- (NSInteger)numberOfDatasInRadarChart:(RPRadarChart*)chart;
+
+// get max value for this radar chart
+- (float)maximumValueInRadarChart:(RPRadarChart*)chart;
+
+// get title for each spoke
+- (NSString*)radarChart:(RPRadarChart*)chart titleForSpoke:(NSInteger)atIndex;
+
+// get data value for a specefic data item for a spoke
+- (float)radarChart:(RPRadarChart*)chart valueForData:(NSInteger)dataIndex forSpoke:(NSInteger)spokeIndex;
+
+// get color legend for a specefic data
+- (UIColor*)radarChart:(RPRadarChart*)chart colorForData:(NSInteger)atIndex;
 
 Licensing
 ---------
