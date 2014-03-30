@@ -7,8 +7,8 @@
 //
 //  Created by Juan Pablo Illanes Sotta (@raspum) on 06-06-12.
 //  Copyright (c) 2012 Juan Pablo Illanes Sotta. All rights reserved.
-
-//  Modified by Wonil Kim (@wonkim99) 10-18-12
+//
+//  Enhanced by Wonil Kim (@wonkim99) 10-18-12
 //   - Use data source to resolve data/color randomly matching issue
 //   - Implement simple line touch detection feature
 
@@ -83,6 +83,44 @@
 #define SCAN_WINDOW_WIDTH   12
 #define SCAN_WINDOW_HEIGHT  12
 
+typedef struct {
+    unsigned char r, g, b;
+} RGB;
+
+static double colorDistance(RGB e1, RGB e2)
+{
+    long rmean = ( (long)e1.r + (long)e2.r ) / 2;
+    long r = (long)e1.r - (long)e2.r;
+    long g = (long)e1.g - (long)e2.g;
+    long b = (long)e1.b - (long)e2.b;
+    return sqrt((((512+rmean)*r*r)>>8) + 4*g*g + (((767-rmean)*b*b)>>8));
+}
+
+- (BOOL)color:(UIColor*)aColor inScanWindow:(unsigned char*)window
+{
+    const size_t pixelBytes = CGBitmapContextGetBitsPerPixel(bitmapCtx) / 8;
+    const size_t scanRowBytes = pixelBytes * SCAN_WINDOW_WIDTH;
+    
+    for (int y = 0; y < SCAN_WINDOW_HEIGHT; y++) {
+        for (int x = 0; x < SCAN_WINDOW_WIDTH; x++) {
+            unsigned char *pixel = window + (x * pixelBytes) + (y * scanRowBytes);
+            unsigned int r = pixel[1];
+            unsigned int g = pixel[2];
+            unsigned int b = pixel[3];
+            float tr, tg, tb, ta;
+            [aColor getRed:&tr green:&tg blue:&tb alpha:&ta];
+            
+            RGB c1 = {r, g, b};
+            RGB c2 = {(int)(tr*255), (int)(tg*255), (int)(tb*255)};
+            if (colorDistance(c1, c2) < 10) {
+                return YES;
+            }
+        }
+    }
+    
+    return NO;
+}
+
 // get scan window data pointer
 - (char*)getScanWindowAtPoint:(CGPoint)point
 {
@@ -108,28 +146,6 @@
     return scanWindow;
 }
 
-- (BOOL)color:(UIColor*)aColor inScanWindow:(unsigned char*)window
-{
-    const size_t pixelBytes = CGBitmapContextGetBitsPerPixel(bitmapCtx) / 8;
-    const size_t scanRowBytes = pixelBytes * SCAN_WINDOW_WIDTH;
-    
-    for (int y = 0; y < SCAN_WINDOW_HEIGHT; y++) {
-        for (int x = 0; x < SCAN_WINDOW_WIDTH; x++) {
-            unsigned char *pixel = window + (x * pixelBytes) + (y * scanRowBytes);
-            unsigned int r = pixel[1];
-            unsigned int g = pixel[2];
-            unsigned int b = pixel[3];
-            float tr, tg, tb, ta;
-            [aColor getRed:&tr green:&tg blue:&tb alpha:&ta];
-            if (r == (int)(tr*255) && g == (int)(tg*255) && b == (int)(tb*255)) {
-                return YES;
-            }
-        }
-    }
-    
-    return NO;
-}
-
 // Move rect to the other position to make it fit into screen
 - (CGRect)fitIntoScreenRect:(CGRect)rect
 {
@@ -145,6 +161,36 @@
     return CGRectMake(newX, newY, rect.size.width, rect.size.height);
 }
 
+// calibrate touch point x, y to make it recognisable as touch for line
+- (CGPoint)calibratePointForBetterTouch:(CGPoint)point
+{
+    const NSInteger diff = 10;
+    const NSInteger centerX = 0;
+    const NSInteger centerY = 0;
+    
+    CGPoint calibratedPoint = point;
+    
+    if (point.x < centerX) {
+        if (point.y < centerY) {
+            calibratedPoint.x = point.x + diff;
+            calibratedPoint.y = point.y + diff;
+        } else {
+            calibratedPoint.x = point.x + diff;
+            calibratedPoint.y = point.y - diff;
+        }
+    } else {
+        if (point.y < centerY) {
+            calibratedPoint.x = point.x - diff;
+            calibratedPoint.y = point.y + diff;
+        } else {
+            calibratedPoint.x = point.x - diff;
+            calibratedPoint.y = point.y - diff;
+        }
+    }
+    
+    return calibratedPoint;
+}
+
 // check about tap gesture and shows detail information if needed
 - (void)handleSingleTap:(UITapGestureRecognizer*)sender
 {
@@ -153,12 +199,16 @@
     const CGPoint point = [sender locationInView:self];
     const CGPoint pointForPath = CGPointMake(point.x - self.frame.size.width/2, point.y - self.frame.size.height/2);
     
+    NSLog(@"Tap point (%f, %f)", point.x, point.y);
+    
+    UIColor *color;
     if (sender.state == UIGestureRecognizerStateEnded) {
         for (NSValue *value in paths) {
             CGMutablePathRef path = [value pointerValue];
-            if (true == CGPathContainsPoint(path, nil, pointForPath, false)) {
+            if (true == CGPathContainsPoint(path, nil, pointForPath, false) ||
+                true == CGPathContainsPoint(path, nil, [self calibratePointForBetterTouch:pointForPath], false)) {
                 char *window = [self getScanWindowAtPoint:point];
-                UIColor *color = colors[pathIndex];
+                color = [colors objectAtIndex:pathIndex];
                 if (YES == [self color:(UIColor*)color inScanWindow:(unsigned char*)window]) {
                     NSLog(@"Path %d touched", pathIndex);
                     touched = true;
@@ -248,7 +298,7 @@
     int mi = 0;
     
     //DRAW LINES
-    CGContextSetAllowsAntialiasing(cx, false);
+    CGContextSetAllowsAntialiasing(cx, true);
     CGMutablePathRef path = CGPathCreateMutable();
     [paths addObject:[NSValue valueWithPointer:path]];
     

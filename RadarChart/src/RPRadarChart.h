@@ -7,6 +7,10 @@
 //
 //  Created by Juan Pablo Illanes Sotta (@raspum) on 06-06-12.
 //  Copyright (c) 2012 Juan Pablo Illanes Sotta. All rights reserved.
+//
+//  Enhanced by Wonil Kim (@wonkim99) 10-18-12
+//   - Use data source to resolve data/color randomly matching issue
+//   - Implement simple line touch detection feature
 
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
