@@ -149,6 +149,11 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0430;
+				TargetAttributes = {
+					9F235469157FAE99002C1327 = {
+						DevelopmentTeam = 3VX2596HE4;
+					};
+				};
 			};
 			buildConfigurationList = 9F235464157FAE99002C1327 /* Build configuration list for PBXProject "RadarChart" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -263,11 +268,14 @@
 		9F235489157FAE9A002C1327 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RadarChart/RadarChart-Prefix.pch";
 				INFOPLIST_FILE = "RadarChart/RadarChart-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -275,11 +283,14 @@
 		9F23548A157FAE9A002C1327 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RadarChart/RadarChart-Prefix.pch";
 				INFOPLIST_FILE = "RadarChart/RadarChart-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

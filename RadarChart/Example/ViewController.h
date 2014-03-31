@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "RPRadarChart.h"
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController <RPRadarChartDataSource, RPRadarChartDelegate>
 {
     RPRadarChart *rc;
 }
@@ -22,6 +22,5 @@
 -(IBAction)showValues:(id)sender;
 -(IBAction)Delegate:(id)sender;
 -(IBAction)fillArea:(id)sender;
--(IBAction)RND:(id)sender;
 
 @end
