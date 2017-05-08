@@ -7,7 +7,7 @@ iOS.
 Disclaimer
 -------
 
-This library is not longer maintained, and you can probably use [charts](https://github.com/danielgindi/Charts) as replacement. 
+This library is not longer maintained, you can probably use [charts](https://github.com/danielgindi/Charts) as replacement. 
   
 Features
 ------
