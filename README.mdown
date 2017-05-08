@@ -4,16 +4,14 @@ RP Radar Chart
 This is a simple library for plotting Radar Charts (or Spider Web Charts) in
 iOS. 
 
-Examples (Using random values):
-
-<img src="http://raspu.com/b/RPRadarA1.png" alt="RPRadarChart" title="RPRadarChart Example" style="display:block; margin: 10px auto 30px auto;" class="center">
-<img src="http://raspu.com/b/RPRadarB2.png" alt="RPRadarChart" title="RPRadarChart Example" style="display:block; margin: 10px auto 30px auto;" class="center">
-
-WARNING
+Disclaimer
 -------
 
-This library is under development, actually is part of an App I'm developing at work, so don't expect it to be finished. I know the code is messy, sorry about that (I'll try to beautify it in the future). Anyway, even if isn't finished you already can:
+This library is not longer maintained, and you can probably use [charts](https://github.com/danielgindi/Charts) as replacement. 
   
+Features
+------
+
   -  Plot one or more set of floats.
   -  Set a different color for each set.
   -  Customize how is the chart displayed:
@@ -23,37 +21,6 @@ This library is under development, actually is part of an App I'm developing at 
     - Show or not guide lines.
     - Show or not guide numbers.
     - Fill or not the drawed area.
-
-Planned features:
-
- - Addjust values positions if needed. 
- - Add a Legend for each data set.
- - Animate a transitions from one data set to another.  
-
-Use
----
-
-Just add RPRadarChart.h and RPRadarChart.m to your project. You can plot something with this few lines:
-
-You can use simple data source protocol to show values on chart such as:
-
-// get number of spokes in radar chart
-- (NSInteger)numberOfSopkesInRadarChart:(RPRadarChart*)chart;
-
-// get number of datas
-- (NSInteger)numberOfDatasInRadarChart:(RPRadarChart*)chart;
-
-// get max value for this radar chart
-- (float)maximumValueInRadarChart:(RPRadarChart*)chart;
-
-// get title for each spoke
-- (NSString*)radarChart:(RPRadarChart*)chart titleForSpoke:(NSInteger)atIndex;
-
-// get data value for a specefic data item for a spoke
-- (float)radarChart:(RPRadarChart*)chart valueForData:(NSInteger)dataIndex forSpoke:(NSInteger)spokeIndex;
-
-// get color legend for a specefic data
-- (UIColor*)radarChart:(RPRadarChart*)chart colorForData:(NSInteger)atIndex;
 
 Licensing
 ---------
